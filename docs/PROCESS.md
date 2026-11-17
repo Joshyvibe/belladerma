@@ -175,7 +175,7 @@ Roles: `owner` (everything) and `staff` (orders + products; no settings or admin
 | # | Deliverable | Status |
 |---|---|---|
 | 0 | Demo page for the client pitch (`../bella-derma-demo`) | ✅ Done |
-| 1 | Scaffold: catalogue, bag, checkout, delivery calc, order page, delivery note, admin (orders, products, zones, settings), transfer confirm flow, notification + payment adapters | ✅ This scaffold |
+| 1 | Scaffold: catalogue, bag, checkout, delivery calc, order page, delivery note, admin (orders, products, zones, settings), transfer confirm flow, notification + payment adapters | ✅ Built & tested locally (`belladerma-shop/`) |
 | 2 | Paystack test keys end-to-end, Resend domain, Supabase project + storage | Needs accounts |
 | 3 | WhatsApp: Meta Business verification, number (coexistence), template approval | Needs client's Meta access |
 | 4 | Real product data and photos, NAFDAC no., bank details, zone prices | Needs client |
