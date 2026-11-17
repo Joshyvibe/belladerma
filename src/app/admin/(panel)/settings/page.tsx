@@ -6,6 +6,7 @@ import { getSettings } from "@/lib/settings";
 import { saveSettingsAction } from "../../actions";
 import { AdminRow } from "./AdminRow";
 import { TestSend } from "./TestSend";
+import { supabaseApiUrl } from "@/lib/storage";
 import { SubmitButton } from "@/components/Loading";
 
 export default async function SettingsPage({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
@@ -17,7 +18,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
     payments: process.env.PAYMENT_PROVIDER || "mock",
     email: !!process.env.RESEND_API_KEY,
     whatsapp: !!(process.env.WHATSAPP_TOKEN && process.env.WHATSAPP_PHONE_NUMBER_ID),
-    storage: process.env.SUPABASE_URL ? "Supabase" : "Local disk",
+    storage: process.env.SUPABASE_URL ? `Supabase (${new URL(supabaseApiUrl(process.env.SUPABASE_URL)).host})` : "Local disk",
     db: remoteDbEnabled() ? "Supabase Postgres" : "Local PGlite",
   };
   return (

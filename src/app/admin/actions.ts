@@ -117,7 +117,12 @@ export async function saveProductAction(id: number | null, _prev: unknown, form:
     if (!(f instanceof File) || f.size === 0) continue;
     const problem = validateUpload(f, { allowPdf: false });
     if (problem) return { error: `${f.name}: ${problem}` };
-    images.push(await saveUpload(f, "public/products"));
+    try {
+      images.push(await saveUpload(f, "public/products"));
+    } catch (e) {
+      console.error("product photo upload failed", e);
+      return { error: `${f.name}: upload failed. Check the storage settings (Settings → Integrations) and try again.` };
+    }
   }
 
   const values = {

@@ -6,8 +6,9 @@ import { naira } from "@/lib/format";
 import { getSettings } from "@/lib/settings";
 import { orderUrl, signAdminAction } from "@/lib/tokens";
 import { sendEmail, sendWhatsApp, type SendResult } from "./channels";
+import { appUrl } from "@/lib/app-url";
 
-const APP = () => process.env.APP_URL ?? "http://localhost:3000";
+const APP = appUrl;
 const first = (name: string) => name.split(" ")[0];
 
 // Notifications never throw. A failed send is logged on the order so admins can see it.

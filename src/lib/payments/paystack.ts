@@ -1,6 +1,7 @@
 import "server-only";
 import crypto from "node:crypto";
 import type { PaymentProvider, PaymentResult } from "./types";
+import { appUrl } from "@/lib/app-url";
 
 // Docs: https://paystack.com/docs/payments/accept-payments/ and /payments/webhooks/
 const API = "https://api.paystack.co";
@@ -34,7 +35,7 @@ export const paystack: PaymentProvider = {
         amount: order.total * 100,
         currency: "NGN",
         reference: `${order.ref}_${Date.now().toString(36)}`,
-        callback_url: `${process.env.APP_URL}/api/payments/callback?ref=${order.ref}`,
+        callback_url: `${appUrl()}/api/payments/callback?ref=${order.ref}`,
         metadata: { order_ref: order.ref, phone: order.phone, name: order.customerName },
       }),
     });

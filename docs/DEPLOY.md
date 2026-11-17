@@ -11,8 +11,8 @@ npm run check   # types + lint + 21 smoke tests on a throwaway database
 2. **Project → Connect**, then copy two connection strings into `.env.local`:
    - **Transaction pooler** (port **6543**) → `DATABASE_URL`. The app uses this.
    - **Session pooler** (port **5432**) → `MIGRATION_DATABASE_URL`. Migrations use this.
-3. **Storage → New bucket**: name it `belladerma` and make it **Public**. Product photos uploaded in admin go to `public/…` in it, and payment receipts to `private/…`; receipts are only ever served through admin-checked signed links.
-4. **Project Settings → API**: copy the project URL into `SUPABASE_URL` and the **service_role** key into `SUPABASE_SERVICE_ROLE_KEY`. This key is server-only; never give it a `NEXT_PUBLIC_` name.
+3. **Storage → New bucket**: name it `belladerma` and make it **Public**. It holds product photos. Payment receipts go to a separate **private** bucket, `belladerma-private`, which the app creates by itself on the first upload. Receipts are only ever shown through short-lived signed links after an admin login.
+4. **Project Settings → API**: copy the **Project URL** into `SUPABASE_URL`. It looks like `https://<ref>.supabase.co`; **not** the dashboard address `supabase.com/dashboard/project/…`, which makes uploads fail with 405. Copy and the **service_role** key into `SUPABASE_SERVICE_ROLE_KEY`. This key is server-only; never give it a `NEXT_PUBLIC_` name.
 5. Create the tables and the first admin:
    ```bash
    npm run db:migrate
@@ -30,9 +30,9 @@ npm run check   # types + lint + 21 smoke tests on a throwaway database
 | Variable | Live demo value |
 |---|---|
 | `AUTH_SECRET` | new 64-char random string (`openssl rand -hex 32`); don't reuse the local one |
-| `APP_URL` | `https://<your-project>.vercel.app` |
+| `APP_URL` | `https://<your-project>.vercel.app` (or your custom domain). Used in email and WhatsApp links. If it's missing or still `localhost`, the app falls back to Vercel's production address |
 | `DATABASE_URL` | Supabase transaction pooler string (6543) |
-| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_BUCKET` | from step 1 (`belladerma`) |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_BUCKET` | from step 1: `https://<ref>.supabase.co`, the service_role key, `belladerma` |
 | `PAYMENT_PROVIDER` | `mock` for the demo: bank transfer only, online payment shows "Coming soon", and walkthrough hints appear. Set `paystack` when going live |
 | `RESEND_API_KEY`, `EMAIL_FROM` | as in `.env.local` |
 | `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_TEMPLATE_LANG` | as in `.env.local` (use a permanent token) |

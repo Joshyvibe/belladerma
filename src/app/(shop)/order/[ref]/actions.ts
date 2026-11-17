@@ -21,7 +21,12 @@ export async function claimTransferAction(ref: string, token: string, _prev: unk
   if (file instanceof File && file.size > 0) {
     const problem = validateUpload(file, { allowPdf: true });
     if (problem) return { error: problem };
-    receipt = await saveUpload(file, "private/receipts");
+    try {
+      receipt = await saveUpload(file, "private/receipts");
+    } catch (e) {
+      console.error("receipt upload failed", e);
+      return { error: "We couldn't upload your receipt. Try again, or remove the file and tap the button. The receipt is optional." };
+    }
   }
   await claimTransfer(order, receipt);
   redirect(page(ref));

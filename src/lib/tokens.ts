@@ -1,6 +1,7 @@
 import "server-only";
 import crypto from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
+import { appUrl } from "@/lib/app-url";
 
 function secret() {
   const s = process.env.AUTH_SECRET;
@@ -20,7 +21,7 @@ export function checkOrderToken(ref: string, token: string | undefined | null) {
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 export const orderUrl = (ref: string, path = "") =>
-  `${process.env.APP_URL ?? "http://localhost:3000"}/order/${ref}${path}?t=${orderToken(ref)}`;
+  `${appUrl()}/order/${ref}${path}?t=${orderToken(ref)}`;
 
 /** Signed, expiring, single-use link that lets an admin confirm/reject a transfer from WhatsApp or email. */
 export type AdminAction = { orderId: number; action: "confirm" | "reject"; adminId: number };
